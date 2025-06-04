@@ -20,6 +20,12 @@ PORT = 8080
 
 FORMATS = ['csv', 'json', 'feather', 'parquet']
 #Cada algoritmo está asociado a su método
+# The code defines a dictionary named `ALGORITHMS` that maps algorithm names to their corresponding
+# wrapper functions. Each key in the dictionary represents the name of an algorithm (e.g.,
+# 'quicksort', 'mergesort', 'radixsort', 'shellsort'), and the value associated with each key is the
+# wrapper function for that algorithm (e.g., quicksort_wrapper, mergesort_wrapper, radixsort_wrapper,
+# shellsort_wrapper). This allows for easy access to different sorting algorithms by using their names
+# as keys in the `ALGORITHMS` dictionary.
 ALGORITHMS = {
     'quicksort': quicksort_wrapper,
     'mergesort': mergesort_wrapper,
@@ -89,6 +95,18 @@ def export_data_from_db():
 
 # ==== Carga datos para sorting (midiendo tiempo de lectura con time.time) ====  
 def load_data_with_timing(fmt):
+    """
+    The function `load_data_with_timing` reads data from a file in various formats and returns a list of
+    values from the 'CANTIDAD' column along with the time taken to read the data.
+    
+    :param fmt: The `fmt` parameter in the `load_data_with_timing` function stands for the format of the
+    data file that is being loaded. It can take values such as 'csv', 'json', 'feather', or 'parquet',
+    representing different file formats in which the data is stored
+    :return: The function `load_data_with_timing` returns a tuple containing two elements:
+    1. A list of values from the 'CANTIDAD' column of the loaded DataFrame `df`, which will be used for
+    sorting by the algorithm.
+    2. The time taken to read the data from the file in seconds, rounded to 15 decimal places.
+    """
     path = os.path.join(os.path.dirname(__file__), 'exports', f"ventas.{fmt}")
     start_read = time.time()
     if fmt == 'csv':
@@ -112,6 +130,20 @@ def load_data_with_timing(fmt):
 
 # ==== Sorting y medición (lectura + ordenamiento con time.time) ====  
 def sort_and_time(fmt, algorithm_func, result_dict):
+    """
+    The function `sort_and_time` measures the time taken to read and sort data using a specified
+    algorithm and stores the timing results in a dictionary.
+    
+    :param fmt: `fmt` is a string parameter that represents the format of the data being loaded and
+    sorted. It is used as a key in the `result_dict` to store the timing information for the specific
+    format
+    :param algorithm_func: The `algorithm_func` parameter in the `sort_and_time` function is expected to
+    be a function that performs sorting on a given dataset. This function will be called within
+    `sort_and_time` to measure the time taken for the sorting operation to complete
+    :param result_dict: The `result_dict` parameter is a dictionary where the results of the sorting and
+    timing process will be stored. The keys in this dictionary will be the format of the data being
+    processed, and the values will be dictionaries containing the following information:
+    """
     try:
         # Mide tiempo de lectura y obtiene datos
         data, read_time = load_data_with_timing(fmt)
@@ -130,6 +162,19 @@ def sort_and_time(fmt, algorithm_func, result_dict):
 
 # ==== Manejo de cliente ====  
 def handle_client(conn, addr):
+    """
+    The `handle_client` function manages client connections, processes commands received over the
+    connection, and responds accordingly while keeping track of active clients.
+    
+    :param conn: The `conn` parameter in the `handle_client` function represents the connection object
+    for the client. It is used to send and receive data over the network connection established with the
+    client. This object allows you to communicate with the client by sending and receiving messages or
+    data
+    :param addr: The `addr` parameter in the `handle_client` function represents the address of the
+    client that is connecting to the server. It typically contains information such as the IP address
+    and port number of the client. This information is used to identify the client and establish a
+    connection between the client and the server
+    """
     global active_clients
     
     # Incrementar contador de clientes activos

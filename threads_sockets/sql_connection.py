@@ -12,6 +12,13 @@ config = {
 
 
 def get_connection():
+    """
+    The code defines functions to establish a database connection and retrieve data using a specified
+    query.
+    :return: The `get_connection` function returns a database connection object if the connection is
+    successful, or None if there is an error. The `get_data` function returns the result of executing a
+    query on the database using the provided connection object.
+    """
     try:
         return connect(**config)
     except Error as err:

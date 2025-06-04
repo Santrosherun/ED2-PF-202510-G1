@@ -8,6 +8,11 @@ PORT = 8080
 
 # Solicita export de datos al servidor
 def request_export():
+    """
+    The `request_export` function establishes a socket connection, sends a request for export, receives
+    and processes the response as JSON, and prints the export formats created or raises an error if
+    there is an issue.
+    """
     #with asegura que al salir el socket se cierre automáticamente
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect((HOST, PORT))
@@ -24,6 +29,15 @@ def request_export():
 
 # Solicita tiempos de ordenamiento de todos los algoritmos
 def request_all():
+    """
+    The function `request_all` establishes a socket connection, sends a request for all data, and
+    accumulates responses until a newline character is encountered before returning the parsed JSON
+    data.
+    :return: The function `request_all()` is returning a JSON object after sending a request to a server
+    to retrieve all data. The function establishes a connection with a socket, sends a request for all
+    data, receives the response in chunks, accumulates the response in a buffer until a newline
+    character is encountered, and then parses the buffer content as JSON before returning it.
+    """
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect((HOST, PORT))
         sock.sendall("all\n".encode()) #envía la segunda solicitud
@@ -39,6 +53,15 @@ def request_all():
 # Guarda cada algoritmo en CSV con sus tiempos por formato
 # Crea carpeta 'results' si no existe
 def save_csvs(results):
+    """
+    The function `save_csvs` saves the results of different algorithms' execution times in CSV files
+    with specific formatting.
+    
+    :param results: The `results` parameter is a dictionary where the keys represent different
+    algorithms and the values are dictionaries containing timing information for different file formats.
+    Each inner dictionary contains the format as the key and timing information (read time and sort
+    time) as values. If there was an error during processing, the timing information
+    """
     output_dir = os.path.join(os.path.dirname(__file__), 'results')
     os.makedirs(output_dir, exist_ok=True)
     for algo, times in results.items():
@@ -58,6 +81,18 @@ def save_csvs(results):
 
 # Función para ejecuta múltiples pruebas de ordenamiento y lectura, recopilando los tiempos para calcular promedios
 def run_multiple_tests(numReps=50):
+    """
+    The function `run_multiple_tests` collects and organizes timing data from multiple test runs for
+    different algorithms and formats.
+    
+    :param numReps: The `numReps` parameter in the `run_multiple_tests` function represents the number
+    of repetitions or iterations for running the tests. By default, it is set to 50, meaning that the
+    tests will be repeated 50 times if no value is provided when calling the function. This parameter
+    allows, defaults to 50 (optional)
+    :return: The function `run_multiple_tests` returns a dictionary containing the accumulated times for
+    reading and sorting data for multiple algorithms and formats. The structure of the returned
+    dictionary is as follows:
+    """
     # Diccionario para almacenar los tiempos acumulados de todas las pruebas
     combined_results = {}  
 
@@ -94,6 +129,15 @@ def run_multiple_tests(numReps=50):
 
 # Calcula los promedios de tiempo de lectura y ordenamiento para cada algoritmo y formato
 def compute_averages(combined_results):
+    """
+    The function `compute_averages` calculates the average read and sort times for different algorithms
+    and formats based on the input combined results.
+    
+    :param combined_results: A dictionary containing results for different algorithms and formats. The
+    structure of the dictionary is as follows:
+    :return: The function `compute_averages` returns a dictionary containing the averaged results for
+    each algorithm and format. The dictionary structure is as follows:
+    """
     averaged_results = {}  # Diccionario donde se almacenarán los promedios
 
     # Itera por cada algoritmo

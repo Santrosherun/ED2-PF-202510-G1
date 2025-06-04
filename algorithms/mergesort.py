@@ -1,4 +1,13 @@
 def merge_sort(arr):
+    """
+    The given Python code implements the merge sort algorithm to sort a given array in ascending order.
+    
+    :param arr: The `arr` parameter in the `merge_sort` function is the list that you want to sort using
+    the merge sort algorithm. It represents the array that needs to be sorted
+    :return: The `merge_sort` function sorts the input array `arr` using the merge sort algorithm and
+    returns the sorted array. The `merge` function is used within the `merge_sort` function to merge two
+    sorted arrays `left` and `right` into a single sorted array.
+    """
     if len(arr) <= 1:
         return arr
     
